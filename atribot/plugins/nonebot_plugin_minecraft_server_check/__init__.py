@@ -3,6 +3,7 @@ from nonebot.adapters.onebot.v11 import GROUP
 from nonebot.plugin import on_command
 from .config import Config
 import requests
+import threading
 
 global_config = get_driver().config
 config = Config.parse_obj(global_config)
@@ -12,21 +13,34 @@ MC_API_SERVER = getattr(config, "MC_API_SERVER", "")
 mcscheck = on_command('mcscheck', permission=GROUP, priority=4)
 
 
+def check_server(addr, desc):
+    resp = requests.get(MC_API_SERVER + addr)
+    if resp.status_code == 200:
+        json_data = resp.json()
+        if not json_data["online"]:
+            return f"{addr} ({desc}) 当前不在线。"
+        else:
+            if json_data['players']['online'] == 0:
+                return f"{addr} ({desc}) 当前没有玩家在线。"
+            else:
+                return f"{addr} ({desc}) 在线玩家： {json_data['players']['uuid']}。"
+    else:
+        return f"{addr} ({desc}) 获取信息失败（{resp.status_code}）。"
+
+
 @mcscheck.handle()
 async def handle_func():
     if len(MC_SERVERS) == 0:
         await mcscheck.finish("未配置服务器")
 
-    for mcserver_addr, mcserver_desc in MC_SERVERS.items():
-        resp = requests.get(MC_API_SERVER + mcserver_addr)
-        if resp.status_code == 200:
-            json_data = resp.json()
-            if json_data["online"] == False:
-                await mcscheck.send(f"{mcserver_addr} ({mcserver_desc}) 当前不在线。")
-            else:
-                if json_data['players']['online'] == 0:
-                    await mcscheck.send(f"{mcserver_addr} ({mcserver_desc}) 当前没有玩家在线。")
-                else:
-                    await mcscheck.send(f"{mcserver_addr} ({mcserver_desc}) 在线玩家： {json_data['players']['uuid']}。")
-        else:
-            await mcscheck.send(f"{mcserver_addr} ({mcserver_desc}) 获取信息失败（{resp.status_code}）。")
+    result = []
+    thread_list = []
+    for addr, desc in MC_SERVERS.items():
+        t = threading.Thread(target=lambda: result.append(check_server(addr, desc)))
+        t.start()
+        thread_list.append(t)
+
+    for t in thread_list:
+        t.join()
+
+    await mcscheck.finish("\n".join(result))
