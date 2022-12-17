@@ -9,14 +9,17 @@ global_config = get_driver().config
 config = Config.parse_obj(global_config)
 MC_SERVERS = getattr(config, "MC_SERVERS", {})
 MC_API_SERVER = getattr(config, "MC_API_SERVER", "")
+MC_BEDROCK_SERVERS = getattr(config, "MC_BEDROCK_SERVERS", "")
+MC_API_SERVER_BEDROCK = getattr(config, "MC_API_SERVER_BEDROCK", "")
 
 mcscheck = on_command('mcscheck', permission=GROUP, priority=4)
 
 
 def check_server(addr, desc):
-    resp = requests.get(MC_API_SERVER + addr)
+    resp = requests.get(addr)
     if resp.status_code == 200:
         json_data = resp.json()
+        addr = addr.split('/')[-1]
         if not json_data["online"]:
             return f"{addr} ({desc}) 当前不在线。"
         else:
@@ -36,7 +39,12 @@ async def handle_func():
     result = []
     thread_list = []
     for addr, desc in MC_SERVERS.items():
-        t = threading.Thread(target=lambda: result.append(check_server(addr, desc)))
+        t = threading.Thread(target=lambda: result.append(check_server(MC_API_SERVER + addr, desc)))
+        t.start()
+        thread_list.append(t)
+
+    for addr, desc in MC_BEDROCK_SERVERS.items():
+        t = threading.Thread(target=lambda: result.append(check_server(MC_API_SERVER_BEDROCK + addr, desc)))
         t.start()
         thread_list.append(t)
 

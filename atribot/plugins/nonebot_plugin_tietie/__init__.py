@@ -4,10 +4,6 @@ from nonebot.plugin import on_keyword
 from nonebot.rule import to_me
 import random
 
-from .config import Config
-
-global_config = get_driver().config
-config = Config.parse_obj(global_config)
 
 tietie = on_keyword("贴贴", rule=to_me(), priority=6, permission=GROUP)
 

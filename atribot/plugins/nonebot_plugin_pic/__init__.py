@@ -32,6 +32,7 @@ def get_drive():
             return "没有找到文件"
 
     else:
+        print(resp.text)
         return f"获取图片失败 ({resp.status_code})"
 
 
