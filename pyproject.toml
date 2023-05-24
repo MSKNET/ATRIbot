@@ -6,7 +6,7 @@ authors = []
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10.9"
+python = "^3.11.3"
 nonebot2 = "^2.0.0rc2"
 nonebot-adapter-onebot = "^2.2.0"
 requests = "^2.28.1"
