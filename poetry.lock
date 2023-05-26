@@ -747,13 +747,13 @@ wmi = ["wmi (>=1.5.1,<2.0.0)"]
 
 [[package]]
 name = "edgegpt"
-version = "0.6.2"
+version = "0.2.1"
 description = "Reverse engineered Edge Chat API"
 optional = false
 python-versions = "*"
 files = [
-    {file = "EdgeGPT-0.6.2-py3-none-any.whl", hash = "sha256:bd69f4069014c473f9eec6f07600ccc29a2c23f9f2d8839a325a449974e9ecfb"},
-    {file = "EdgeGPT-0.6.2.tar.gz", hash = "sha256:25e9e25caa65814d72cb2314d2d394a83715f20e9b1296b2d54b7cc7c435bac7"},
+    {file = "EdgeGPT-0.2.1-py3-none-any.whl", hash = "sha256:c682f8860ebc0da4e779963360ea8ec4065ac9dc0aececffff93a50aa00d963d"},
+    {file = "EdgeGPT-0.2.1.tar.gz", hash = "sha256:cdb8408b2f9f118007263eb3787e7e24ab6cc542356de221f6ee9b68f27b9ff2"},
 ]
 
 [package.dependencies]
@@ -3101,4 +3101,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11.3"
-content-hash = "b232478f137a6a2e70ca259d7f6e7913a1e96386e24bb26d302f4656a1c7f727"
+content-hash = "204455f64f27c7fbcb5935f11e1603f6deec06eb3c3be5d167b1fac8b6f3b60d"
