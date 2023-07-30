@@ -1,14 +1,13 @@
 import random
-from .config import Config
+from .data import Data
 from nonebot.adapters.onebot.v11.event import GroupMessageEvent
 from nonebot.log import logger
 from nonebot import get_driver
 
-global_config = get_driver().config
-config = Config.parse_obj(global_config)
+data = Data()
 
-GROUP_ID = getattr(config, "GROUP_ID", [])
-RATE = getattr(config, "RATE", 0)
+GROUP_ID = getattr(data, "GROUP_ID", [])
+RATE = getattr(data, "RATE", 0)
 
 
 def need_send(event: GroupMessageEvent) -> bool:
@@ -30,10 +29,8 @@ def need_send(event: GroupMessageEvent) -> bool:
     if event.message[0].type in ["sign", "share", "json", "forward"]:
         return False
 
-    if (
-        "http://" in event.raw_message.lower()
-        or "https://" in event.raw_message.lower()
-    ):
+    if ("http://" in event.raw_message.lower()
+            or "https://" in event.raw_message.lower()):
         return False
 
     rand = random.random()

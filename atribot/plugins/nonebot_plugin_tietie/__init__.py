@@ -1,4 +1,3 @@
-from nonebot import get_driver
 from nonebot.adapters.onebot.v11 import GROUP
 from nonebot.plugin import on_keyword
 from nonebot.rule import to_me

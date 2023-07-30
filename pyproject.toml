@@ -1,26 +1,28 @@
 [tool.poetry]
 name = "ATRIbot"
-version = "0.1.0"
+version = "1.0.0"
 description = "ATRIbot"
 authors = []
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11.3"
-nonebot2 = "^2.0.0rc2"
-nonebot-adapter-onebot = "^2.2.0"
-requests = "^2.28.1"
-mcstatus = "^10.0.1"
-elf-rss = "^2.6.15"
-nonebot-plugin-bing-chat = "^0.7.11"
-nonebot-plugin-access-control = "^0.4.1"
-edgegpt = "0.2.1"
+python = "^3.11"
+nonebot2 = "^2.0.1"
+nonebot-adapter-onebot = "^2.2.3"
+mcstatus = "^11.0.0"
+elf-rss = "^2.6.20"
+asyncio = "^3.4.3"
+aiohttp = "^3.8.5"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
 nb-cli = "^1.0.3"
+flake8 = "^6.1.0"
 
 [tool.nonebot]
-plugins = ["nonebot_plugin_access_control", "ELF_RSS2", "nonebot_plugin_bing_chat"]
+plugins = ["ELF_RSS2"]
 plugin_dirs = ["atribot/plugins"]
 
 [build-system]
