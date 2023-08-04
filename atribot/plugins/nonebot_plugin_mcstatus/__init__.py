@@ -42,7 +42,7 @@ async def _():
                     players = (status.players.online if server.server_type
                                == "JE" else status.players_online)
 
-                except (socket.timeout, socket.gaierror):
+                except (ConnectionRefusedError, socket.timeout, socket.gaierror):
                     retry = server.retry + 1
                     if retry >= 3:
                         online = False

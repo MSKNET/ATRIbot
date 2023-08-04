@@ -68,6 +68,8 @@ async def lookup_server(server: Server) -> str:
             status = await asyncio.to_thread(
                 BedrockServer.lookup(server.address).status)
         return put_status(server, status)
+    except ConnectionRefusedError:
+        return f"{server.name}服务器拒绝连接"
     except socket.timeout:
         return f"{server.name}服务器获取状态超时"
     except socket.gaierror:
@@ -115,6 +117,8 @@ class Handle:
             players = BedrockServer.lookup(
                 args.address).status().players_online
             server_type = 'BE'
+        except ConnectionRefusedError:
+            return "服务器拒绝连接"
         except socket.gaierror:
             return "域名解析失败"
         except socket.timeout:
