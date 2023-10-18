@@ -23,6 +23,7 @@ checkapi.add_argument("name")
 add = subparsers.add_parser("add", help="add server")
 add.add_argument("name")
 add.add_argument("address")
+add.add_argument("description")
 
 remove = subparsers.add_parser("remove", help="remove server")
 remove.add_argument("name")

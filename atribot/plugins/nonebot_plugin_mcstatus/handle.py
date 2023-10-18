@@ -136,6 +136,7 @@ class Handle:
         Data().add_server(
             Server(name=args.name,
                    address=args.address,
+                   description=args.description,
                    server_type=server_type,
                    online=True,
                    players=players,
